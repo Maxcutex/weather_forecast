@@ -16,12 +16,14 @@ class WeatherService < ActiveInteraction::Base
   validate :validate_api_key
   validate :validate_endpoint
 
+  # @return [Object] weather data
   def execute
     fetch
   end
 
   private
 
+  # @return [Object] weather data
   def fetch
     uri = build_uri
     response = Net::HTTP.get_response(uri)

@@ -32,6 +32,7 @@ module ForecastsHelper
 
   private
 
+  # @return [String] weather row HTML
   def weather_row(label, value, unit: nil)
     return if value.blank?
 

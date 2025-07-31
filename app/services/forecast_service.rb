@@ -5,6 +5,7 @@ class ForecastService < ActiveInteraction::Base
   string :address
   validates :address, presence: true
 
+  # @return [Dtos::Forecast] forecast data
   def execute
     fetch_from_cache.presence || fetch_and_cache_forecast
   end
@@ -21,6 +22,7 @@ class ForecastService < ActiveInteraction::Base
     @cache_key ||= "forecast_#{geocode[:zip_code]}"
   end
 
+  # @return [Dtos::Forecast] forecast data from cache
   def fetch_from_cache
     forecast_hash = Rails.cache.read(cache_key)
     return if forecast_hash.blank?
@@ -28,9 +30,22 @@ class ForecastService < ActiveInteraction::Base
     Dtos::Forecast.new(**forecast_hash, from_cache: true)
   end
 
+  # @return [Dtos::Forecast] forecast data
   def fetch_and_cache_forecast
-    weather = compose(WeatherService, lat: geocode[:coordinates][0], lon: geocode[:coordinates][1])
-    forecast = Dtos::Forecast.new(
+    weather = fetch_weather
+    forecast = build_forecast(weather)
+    Rails.cache.write(cache_key, forecast.to_h, expires_in: 30.minutes)
+    forecast
+  end
+
+  # @return [Object] weather data
+  def fetch_weather
+    compose(WeatherService, lat: geocode[:coordinates][0], lon: geocode[:coordinates][1])
+  end
+
+  # @return [Dtos::Forecast] forecast data
+  def build_forecast(weather)
+    Dtos::Forecast.new(
       address: address,
       location: geocode[:location],
       coordinates: geocode[:coordinates],
@@ -38,8 +53,5 @@ class ForecastService < ActiveInteraction::Base
       weather: weather,
       from_cache: false
     )
-    Rails.cache.write(cache_key, forecast.to_h, expires_in: 30.minutes)
-
-    forecast
   end
 end

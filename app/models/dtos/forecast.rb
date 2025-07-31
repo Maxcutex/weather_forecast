@@ -21,13 +21,13 @@ module Dtos
     # @param from_cache [Boolean] whether the forecast was fetched from cache
     attr_reader :from_cache
 
-    def initialize(address:, location:, coordinates:, zip_code:, weather:, from_cache:)
-      @address = address
-      @location = location
-      @coordinates = coordinates
-      @zip_code = zip_code
-      @weather = weather
-      @from_cache = from_cache
+    def initialize(options = {})
+      @address = options[:address]
+      @location = options[:location]
+      @coordinates = options[:coordinates]
+      @zip_code = options[:zip_code]
+      @weather = options[:weather]
+      @from_cache = options[:from_cache]
     end
 
     def to_h

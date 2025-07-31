@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :forecasts, only: [:index] do
+  resources :forecasts, only: [ :index ] do
     collection do
       get :search
     end

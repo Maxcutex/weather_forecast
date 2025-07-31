@@ -1,8 +1,111 @@
-# Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+AllCops:
+  TargetRubyVersion: 3.3
+  NewCops: enable
+  Exclude:
+    - "db/**/*"
+    - "config/**/*"
+    - "bin/*"
+    - "node_modules/**/*"
+    - "vendor/**/*"
+    - "spec/**/*"
+    - "test/**/*"
+    - "*.gemspec"
+    - "Gemfile"
+    - "Rakefile"
+    - "lib/**/*"
+    - "public/**/*"
+    - "storage/**/*"
+    - "tmp/**/*"
+    - "log/**/*"
+    - "migrate/**/*"
+    - "db/migrate/**/*"
+    - "db/queue_schema.rb"
+    - "db/seeds.rb"
 
-# Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
-# Layout/SpaceInsideArrayLiteralBrackets:
-#   Enabled: false
+plugins:
+  - rubocop-performance
+  - rubocop-rails
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*.rb"
+    - "test/**/*.rb"
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/ClassLength:
+  Max: 150
+
+Metrics/CyclomaticComplexity:
+  Max: 6
+
+Metrics/PerceivedComplexity:
+  Max: 7
+
+Metrics/AbcSize:
+  Max: 20
+
+Style/Documentation:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Naming/PredicatePrefix:
+  Enabled: true
+
+Naming/VariableNumber:
+  Enabled: true
+
+Performance/RedundantMerge:
+  Enabled: true
+
+Performance/Detect:
+  Enabled: true
+
+Rails:
+  Enabled: true
+
+Rails/SkipsModelValidations:
+  Enabled: true
+
+Rails/OutputSafety:
+  Enabled: true
+
+Rails/TimeZone:
+  Enabled: true
+
+Rails/HasAndBelongsToMany:
+  Enabled: true
+
+Rails/SaveBang:
+  Enabled: true
+
+Rails/HttpPositionalArguments:
+  Enabled: true
+
+Rails/EnumUniqueness:
+  Enabled: true
+
+Security/Eval:
+  Enabled: true
+
+Security/Open:
+  Enabled: true
+
+Security/YAMLLoad:
+  Enabled: true
+# Add additional project-specific rules below as needed.

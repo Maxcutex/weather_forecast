@@ -7,12 +7,14 @@ class GeocodingService < ActiveInteraction::Base
   validates :address, presence: true
   validate :check_api_key_presence!
 
+  # @return [Hash] geocode data
   def execute
     lookup
   end
 
   private
 
+  # @return [Hash] geocode data
   def lookup
     results = Geocoder.search(@address)
     return handle_no_location_found! if results.blank?
@@ -20,6 +22,7 @@ class GeocodingService < ActiveInteraction::Base
     handle_success(results)
   end
 
+  # @return [void]
   def check_api_key_presence!
     api_key = ENV.fetch('GOOGLE_GEOCODER_API_KEY', nil)
     return if api_key.present?
@@ -30,6 +33,7 @@ class GeocodingService < ActiveInteraction::Base
                         details: { message: 'Invalid Key.' })
   end
 
+  # @return [Hash] geocode data
   def handle_success(results)
     @location = results.first
     @coordinates = [@location.latitude, @location.longitude]
@@ -41,6 +45,7 @@ class GeocodingService < ActiveInteraction::Base
     }
   end
 
+  # @return [void]
   def handle_no_location_found!
     errors.add(:base, "No location found for address: #{@address}")
     error_message = "Geocoding error: No location found for address: #{@address}"
