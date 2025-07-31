@@ -1,2 +1,16 @@
-<h1>Forecasts#search</h1>
-<p>Find me in app/views/forecasts/search.html.erb</p>
+<div class="weather-results">
+  <h2 class="weather-results-title">Weather Forecast</h2>
+  <% if @forecast.from_cache %>
+    <div class="weather-cache-indicator">(Loaded from cache)</div>
+  <% else %>
+    <div class="weather-cache-indicator">(Freshly fetched)</div>
+  <% end %>
+  <%= render_weather_details(@forecast.weather) %>
+  <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #e2e8f0;" />
+  <h3 class="weather-results-title" style="font-size:1.1rem; margin-bottom:0.5rem;">Geocoding Info</h3>
+  <%= render_geocoding_info(@forecast.address, @forecast.coordinates, @forecast.zip_code, @forecast.location) %>
+  <% if flash[:alert] %>
+    <div class="weather-alert"><%= flash[:alert] %></div>
+  <% end %>
+  <%= link_to "Try another address", forecasts_path, class: "weather-results-link" %>
+</div>
