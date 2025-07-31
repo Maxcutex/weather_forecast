@@ -1,6 +1,8 @@
+
 <%= form_with url: search_forecasts_path, method: :get, html: { class: "weather-form", "data-turbo" => "false" } do |form| %>
     <h1 class="weather-form-title">Weather Forecast</h1>
     <label class="weather-form-label" for="address">Enter a city, address, or zip code</label>
     <%= form.text_field :address, class: "weather-form-input", id: "address", autofocus: true, required: true %>
     <button class="weather-form-btn" type="submit">Get Forecast</button>
   <% end %>
+

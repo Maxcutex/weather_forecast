@@ -40,6 +40,8 @@ class WeatherService < ActiveInteraction::Base
 
   def handle_api_error(response, uri)
     add_generic_error
+    ErrorHandler.handle(message: "Weather API error: #{response.code} #{response.message} #{uri}",
+                        status: response.code.to_i)
   end
 
   def validate_api_key
@@ -47,6 +49,7 @@ class WeatherService < ActiveInteraction::Base
     return if @api_key.present?
 
     add_generic_error
+    ErrorHandler.handle(message: 'Webservice API key missing ')
   end
 
   def validate_endpoint
@@ -54,6 +57,7 @@ class WeatherService < ActiveInteraction::Base
     return if @endpoint.present?
 
     add_generic_error
+    ErrorHandler.handle(message: 'Webservice endpoint missing ')
   end
 
   def add_generic_error
